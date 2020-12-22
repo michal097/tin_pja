@@ -17,11 +17,11 @@ public class UserCreateService {
 
     @Autowired
     public UserCreateService(PasswordEncoder passwordEncoder,
-                       UserRepository userRepository,
-                       UserRoleRepository userRoleRepository) {
+                             UserRepository userRepository,
+                             UserRoleRepository userRoleRepository) {
         this.passwordEncoder = passwordEncoder;
-        this.userRepository=userRepository;
-        this.userRoleRepository=userRoleRepository;
+        this.userRepository = userRepository;
+        this.userRoleRepository = userRoleRepository;
     }
 
     public User addWithDefaultRole(User user, String roleName) {

@@ -10,7 +10,8 @@ import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor
-@Getter@Setter
+@Getter
+@Setter
 public class Titles {
 
     @Id

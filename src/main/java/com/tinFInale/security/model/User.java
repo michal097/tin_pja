@@ -1,4 +1,5 @@
 package com.tinFInale.security.model;
+
 import com.tinFInale.application.model.Employee;
 import lombok.Data;
 

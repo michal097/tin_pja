@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -27,14 +25,14 @@ public class EmployeeController {
     private final EmpDeptRepository empDeptRepository;
 
     @Autowired
-    EmployeeController(EmpDeptRepository empDeptRepository){
+    EmployeeController(EmpDeptRepository empDeptRepository) {
         this.empDeptRepository = empDeptRepository;
     }
 
-    public Stream<EmpDept> getAuthenticatedName(){
+    public Stream<EmpDept> getAuthenticatedName() {
         return empDeptRepository.findAll()
                 .stream()
-                .filter(e->e.getEmployee()
+                .filter(e -> e.getEmployee()
                         .getUsername()
                         .equals(SecurityContextHolder.getContext()
                                 .getAuthentication()
@@ -42,22 +40,22 @@ public class EmployeeController {
     }
 
     @GetMapping("/getAllEmps")
-        public Set<Employee> getAllEmpsWithDepart(){
+    public Set<Employee> getAllEmpsWithDepart() {
 
         Set<Department> depts = getAuthenticatedName().map(EmpDept::getDepartment).collect(Collectors.toSet());
 
         Set<Employee> list = new HashSet<>();
-        for(EmpDept e : empDeptRepository.findAll()){
-            if(depts.contains(e.getDepartment())){
+        for (EmpDept e : empDeptRepository.findAll()) {
+            if (depts.contains(e.getDepartment())) {
                 list.add(e.getEmployee());
             }
         }
         return list;
-        }
+    }
 
-        @GetMapping("/getMyDepts")
-        public Set<Department> departments(){
-           return getAuthenticatedName().map(EmpDept::getDepartment).collect(Collectors.toSet());
-        }
+    @GetMapping("/getMyDepts")
+    public Set<Department> departments() {
+        return getAuthenticatedName().map(EmpDept::getDepartment).collect(Collectors.toSet());
+    }
 
 }

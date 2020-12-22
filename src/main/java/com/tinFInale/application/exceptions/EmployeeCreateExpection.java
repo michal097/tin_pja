@@ -5,15 +5,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EmployeeCreateExpection extends Exception{
+public class EmployeeCreateExpection extends Exception {
     private String message;
 
-    public EmployeeCreateExpection(String message){
+    public EmployeeCreateExpection(String message) {
         super(message);
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "getting errors: " + this.message;
     }
 }

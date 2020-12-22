@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequestMapping("/test")
-public class Testing{
+public class Testing {
 
     @Autowired
     UserRepository userRepository;
@@ -20,12 +20,12 @@ public class Testing{
     UserCreateService userCreateService;
 
     @GetMapping("init")
-    public String init(){
+    public String init() {
         User user = new User();
         user.setUsername("admin");
         user.setPassword("admin");
 
-        userCreateService.addWithDefaultRole(user,"ROLE_ADMIN");
+        userCreateService.addWithDefaultRole(user, "ROLE_ADMIN");
         userRepository.save(user);
 
         return "hello there";

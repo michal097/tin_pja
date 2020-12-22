@@ -15,7 +15,8 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter@Setter
+@Getter
+@Setter
 public class Department {
 
 
@@ -29,14 +30,15 @@ public class Department {
     @NotNull
     private String departmentManager;
 
-    @OneToMany(mappedBy = "department",  fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
     @JsonIgnore
     Set<EmpDept> depts;
 
-    public void setDepartmentName(String departmentName){
-        this.departmentName=departmentName.substring(0,1).toUpperCase() + departmentName.substring(1);
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName.substring(0, 1).toUpperCase() + departmentName.substring(1);
     }
-    public void setDepartmentManager(String departmentManager){
-        this.departmentManager=departmentManager.substring(0,1).toUpperCase() + departmentManager.substring(1);
+
+    public void setDepartmentManager(String departmentManager) {
+        this.departmentManager = departmentManager.substring(0, 1).toUpperCase() + departmentManager.substring(1);
     }
 }

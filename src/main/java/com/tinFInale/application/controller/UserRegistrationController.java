@@ -19,27 +19,28 @@ public class UserRegistrationController {
     private final EmployeeRepository employeeRepository;
     private final UserCreateService userCreateService;
     private final UserRepository userRepository;
+
     @Autowired
     public UserRegistrationController(EmployeeRepository employeeRepository,
                                       UserCreateService userCreateService,
-                                      UserRepository userRepository){
-        this.employeeRepository=employeeRepository;
-        this.userCreateService=userCreateService;
-        this.userRepository=userRepository;
+                                      UserRepository userRepository) {
+        this.employeeRepository = employeeRepository;
+        this.userCreateService = userCreateService;
+        this.userRepository = userRepository;
 
     }
 
     @PostMapping("/createAndSaveUser")
-    public User createUser(@RequestBody User user){
+    public User createUser(@RequestBody User user) {
         var username = employeeRepository.findAll()
                 .stream()
                 .map(Employee::getUsername)
                 .filter(u -> u.equals(user.getUsername()))
                 .findAny();
 
-        var isAlreadyPresent =userRepository.findByUsername(user.getUsername());
+        var isAlreadyPresent = userRepository.findByUsername(user.getUsername());
 
-        if(username.isEmpty() || isAlreadyPresent!=null){
+        if (username.isEmpty() || isAlreadyPresent != null) {
             String str = "Admin didnt create employee with this username: " + user.getUsername();
             log.error(str);
             throw new UsernameNotFoundException(str);
@@ -52,18 +53,19 @@ public class UserRegistrationController {
     }
 
     @GetMapping("/user")
-    public User user(){
+    public User user() {
         System.out.println("username");
         userRepository.findAll().forEach(System.out::println);
         return userRepository.findByUsername("fdsa");
     }
 
     @GetMapping("/test") //SHOWS ROLE
-    public String str(){
+    public String str() {
         return SecurityContextHolder.getContext().getAuthentication().getAuthorities().toString();
     }
+
     @GetMapping("/username") //SHOWS USERNAME
-    public String usrs(){
+    public String usrs() {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 

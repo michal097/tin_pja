@@ -11,7 +11,9 @@ import java.util.List;
 
 public interface EmpDeptRepository extends CrudRepository<EmpDept, Long> {
     List<EmpDept> findAll();
+
     List<EmpDept> findAll(Sort sort);
+
     List<EmpDept> findAllByEmployee(Employee employee);
 
 

@@ -17,28 +17,29 @@ import org.springframework.stereotype.Service;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-	private final UserRepository userRepository;
+    private final UserRepository userRepository;
 
-	@Autowired
-	public JwtUserDetailsService(UserRepository userRepository){
-		this.userRepository=userRepository;
-	}
+    @Autowired
+    public JwtUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.tinFInale.security.model.User user = userRepository.findByUsername(username);
-		return new User(
-				user.getUsername(),
-				user.getPassword(),
-				convertAuthorities(user.getRoles())
-		);
-	}
-	private Set<GrantedAuthority> convertAuthorities(Set<UserRole> userRoles) {
-		Set<GrantedAuthority> authorities = new HashSet<>();
-		for (UserRole ur : userRoles) {
-			authorities.add(new SimpleGrantedAuthority(ur.getRole()));
-		}
-		return authorities;
-	}
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        com.tinFInale.security.model.User user = userRepository.findByUsername(username);
+        return new User(
+                user.getUsername(),
+                user.getPassword(),
+                convertAuthorities(user.getRoles())
+        );
+    }
+
+    private Set<GrantedAuthority> convertAuthorities(Set<UserRole> userRoles) {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        for (UserRole ur : userRoles) {
+            authorities.add(new SimpleGrantedAuthority(ur.getRole()));
+        }
+        return authorities;
+    }
 
 }

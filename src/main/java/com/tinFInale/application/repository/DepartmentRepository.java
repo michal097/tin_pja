@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface DepartmentRepository extends CrudRepository<Department, Long> {
     List<Department> findAll();
+
     Optional<Department> findOneByDepartmentName(String departmentName);
 }

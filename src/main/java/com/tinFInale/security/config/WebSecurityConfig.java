@@ -22,57 +22,57 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-	private final UserDetailsService userDetailsService;
-	private final JwtRequestFilter jwtRequestFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
+    private final UserDetailsService userDetailsService;
+    private final JwtRequestFilter jwtRequestFilter;
 
-	@Autowired
-	public WebSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-							 UserDetailsService userDetailsService,
-							 JwtRequestFilter jwtRequestFilter){
-		this.jwtAuthenticationEntryPoint=jwtAuthenticationEntryPoint;
-		this.userDetailsService=userDetailsService;
-		this.jwtRequestFilter=jwtRequestFilter;
-	}
+    @Autowired
+    public WebSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+                             UserDetailsService userDetailsService,
+                             JwtRequestFilter jwtRequestFilter) {
+        this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
+        this.userDetailsService = userDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-	}
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Bean
-	@Override
-	public AuthenticationManager authenticationManagerBean() throws Exception {
-		return super.authenticationManagerBean();
-	}
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
-	String [] permissions = {
-		"/authenticate",
-		"/createAndSaveUser",
-		"/test/**",
-		"/username",
-		"/admin/getAllEmployeesWithDepartments",
-		"/admin/getAllEmployeesWithDepartments/sortBy/departmentbudget/**"
-	};
+    String[] permissions = {
+            "/authenticate",
+            "/createAndSaveUser",
+            "/test/**",
+            "/username",
+            "/admin/getAllEmployeesWithDepartments",
+            "/admin/getAllEmployeesWithDepartments/sortBy/departmentbudget/**"
+    };
 
-	@Override
-	protected void configure(HttpSecurity httpSecurity) throws Exception {
+    @Override
+    protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-		httpSecurity.csrf().disable()
-				.authorizeRequests().antMatchers(permissions).permitAll()
-				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-				.antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
-				.antMatchers("/user/**").hasAnyAuthority("ROLE_USER")
-    			.anyRequest().authenticated()
-				.and().formLogin()
-				.and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.csrf().disable()
+                .authorizeRequests().antMatchers(permissions).permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers("/user/**").hasAnyAuthority("ROLE_USER")
+                .anyRequest().authenticated()
+                .and().formLogin()
+                .and().exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-	}
+        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    }
 }

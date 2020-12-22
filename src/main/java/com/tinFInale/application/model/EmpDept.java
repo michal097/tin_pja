@@ -21,25 +21,25 @@ public class EmpDept {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(columnDefinition = "employee_id")
-            @JsonUnwrapped
+    @JsonUnwrapped
     @JsonIgnore
     Employee employee;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(columnDefinition = "department_id")
-            @JsonUnwrapped
+    @JsonUnwrapped
     @JsonIgnore
     Department department;
 
     LocalDate hiredDate;
 
-    public EmpDept(){
+    public EmpDept() {
         this.hiredDate = LocalDate.now();
     }
 
-    public EmpDept(Employee employee, Department department){
-        this.employee=employee;
-        this.department=department;
+    public EmpDept(Employee employee, Department department) {
+        this.employee = employee;
+        this.department = department;
     }
 
 }

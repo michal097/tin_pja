@@ -43,7 +43,7 @@ public class Employee {
 
     @OneToMany(mappedBy = "department", fetch = FetchType.EAGER)
     @JsonIgnore
-                @JsonUnwrapped
+    @JsonUnwrapped
     Set<EmpDept> depts;
 
     @OneToMany(mappedBy = "employee", fetch = FetchType.EAGER)
@@ -54,12 +54,12 @@ public class Employee {
     @Transient
     private String department;
 
-    public void setName(String name){
-        this.name = name.substring(0,1).toUpperCase() + name.substring(1);
+    public void setName(String name) {
+        this.name = name.substring(0, 1).toUpperCase() + name.substring(1);
     }
 
-    public void setLastName(String lastName){
-        this.lastName = lastName.substring(0,1).toUpperCase() + lastName.substring(1);
+    public void setLastName(String lastName) {
+        this.lastName = lastName.substring(0, 1).toUpperCase() + lastName.substring(1);
     }
 
 
