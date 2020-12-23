@@ -10,6 +10,7 @@ import com.tinFInale.application.service.SortService;
 import com.tinFInale.security.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,20 +52,25 @@ public class AdmintController {
 
     }
 
-    @GetMapping("/getAllEmployeesWithDepartments")
-    public List<EmpDept> getAllEmployeesWithDepartments() {
-        return empDeptRepository.findAll();
+    @GetMapping("/getAllEmployeesWithDepartments/{page}")
+    public List<EmpDept> getAllEmployeesWithDepartments(@PathVariable Integer page) {
+        return empDeptRepository.findAll(PageRequest.of(page,5));
     }
 
-    @GetMapping("search/{phrase}")
-    public Set<EmpDept> getAllBySearchOhrase(@PathVariable String phrase) {
-        return sortService.fuzzySearch(phrase);
+    @GetMapping("search/{phrase}/{page}")
+    public Set<EmpDept> getAllBySearchOhrase(@PathVariable String phrase,
+                                             @PathVariable Integer page) {
+        return sortService.fuzzySearch(phrase, page);
     }
 
-    @GetMapping("/getAllEmployeesWithDepartments/sortBy/{sort}/{order}/{phrase}")
-    public List<EmpDept> gelAllEmployeesWithSort(@PathVariable("sort") String sortBy, @PathVariable("order") String sortOrder, @PathVariable String phrase) {
 
-        var sortedEmployeeDeptList = sortService.fuzzySearch(phrase)
+    @GetMapping("/getAllEmployeesWithDepartments/sortBy/{sort}/{order}/{phrase}/{page}")
+    public List<EmpDept> gelAllEmployeesWithSort(@PathVariable("sort") String sortBy,
+                                                 @PathVariable("order") String sortOrder,
+                                                 @PathVariable String phrase,
+                                                 @PathVariable Integer page) {
+
+        var sortedEmployeeDeptList = sortService.fuzzySearch(phrase, page)
                 .stream()
                 .sorted(Comparator.comparing(x -> {
                     return sortService.sortedObj(x, sortBy);

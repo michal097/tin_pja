@@ -1,6 +1,8 @@
 package com.tinFInale.application.controller;
 
+import com.tinFInale.application.model.EmpDept;
 import com.tinFInale.application.model.Employee;
+import com.tinFInale.application.repository.EmpDeptRepository;
 import com.tinFInale.application.repository.EmployeeRepository;
 import com.tinFInale.security.model.User;
 import com.tinFInale.security.repository.UserRepository;
@@ -19,14 +21,17 @@ public class UserRegistrationController {
     private final EmployeeRepository employeeRepository;
     private final UserCreateService userCreateService;
     private final UserRepository userRepository;
+    private final EmpDeptRepository empDeptRepository;
 
     @Autowired
     public UserRegistrationController(EmployeeRepository employeeRepository,
                                       UserCreateService userCreateService,
-                                      UserRepository userRepository) {
+                                      UserRepository userRepository,
+                                      EmpDeptRepository empDeptRepository) {
         this.employeeRepository = employeeRepository;
         this.userCreateService = userCreateService;
         this.userRepository = userRepository;
+        this.empDeptRepository=empDeptRepository;
 
     }
 
@@ -69,4 +74,8 @@ public class UserRegistrationController {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
+    @GetMapping("/countPages")
+    public String counterPage(){
+        return String.valueOf(empDeptRepository.findAll().size());
+    }
 }

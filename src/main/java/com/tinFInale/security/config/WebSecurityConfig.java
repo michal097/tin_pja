@@ -56,8 +56,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/createAndSaveUser",
             "/test/**",
             "/username",
-            "/admin/getAllEmployeesWithDepartments",
-            "/admin/getAllEmployeesWithDepartments/sortBy/departmentbudget/**"
+            "/admin/getAllEmployeesWithDepartments/**",
+            "/admin/getAllEmployeesWithDepartments/sortBy/departmentbudget/**",
+            "/countPages"
     };
 
     @Override

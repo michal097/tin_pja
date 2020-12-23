@@ -3,6 +3,8 @@ package com.tinFInale.application.service;
 import com.tinFInale.application.model.EmpDept;
 import com.tinFInale.application.repository.EmpDeptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -54,7 +56,7 @@ public class SortService {
     }
 
 
-    public Set<EmpDept> fuzzySearch(String phrase) {
+    public Set<EmpDept> fuzzySearch(String phrase, Integer page) {
 
         var preparedPhrase = phrase.toLowerCase().trim();
 
@@ -64,7 +66,7 @@ public class SortService {
 
         //SEARCH PHRASE COMES FROM ANGULAR FRONT
         if (preparedPhrase.equals("undefined"))
-            return new HashSet<>(empDeptRepository.findAll());
+            return new HashSet<>(empDeptRepository.findAll(PageRequest.of(page,5)));
         else
             return Stream.of(findNames, findLastName, findDepart).flatMap(Collection::stream).collect(toSet());
     }
