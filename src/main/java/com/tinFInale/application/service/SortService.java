@@ -55,15 +55,15 @@ public class SortService {
     }
 
 
-    public List<EmpDept> fuzzySearch(String phrase, Integer page) {
+    public List<EmpDept> fuzzySearch(String phrase, Integer page, Integer recordsPerPage) {
 
         var preparedPhrase = phrase.toLowerCase().trim();
 
         //SEARCH PHRASE COMES FROM ANGULAR FRONT
         if (preparedPhrase.equals("undefined") || phrase.equals(""))
-            return new ArrayList<>(empDeptRepository.findAll(PageRequest.of(page,5)));
+            return new ArrayList<>(empDeptRepository.findAll(PageRequest.of(page,recordsPerPage)));
         else
-            return empDeptRepository.findBySearchPhrase(preparedPhrase,PageRequest.of(page,5));
+            return empDeptRepository.findBySearchPhrase(preparedPhrase,PageRequest.of(page,recordsPerPage));
     }
 
 }

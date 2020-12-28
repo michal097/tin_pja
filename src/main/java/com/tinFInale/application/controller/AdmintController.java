@@ -49,25 +49,27 @@ public class AdmintController {
 
     }
 
-    @GetMapping("/getAllEmployeesWithDepartments/{page}")
-    public List<EmpDept> getAllEmployeesWithDepartments(@PathVariable Integer page) {
-        return empDeptRepository.findAll(PageRequest.of(page,5));
+    @GetMapping("/getAllEmployeesWithDepartments/{page}/{records}")
+    public List<EmpDept> getAllEmployeesWithDepartments(@PathVariable Integer page, @PathVariable Integer records) {
+        return empDeptRepository.findAll(PageRequest.of(page,records));
     }
 
-    @GetMapping("search/{phrase}/{page}")
+    @GetMapping("search/{phrase}/{page}/{records}")
     public List<EmpDept> getAllBySearchOhrase(@PathVariable String phrase,
-                                             @PathVariable Integer page) {
-        return sortService.fuzzySearch(phrase, page);
+                                             @PathVariable Integer page,
+                                              @PathVariable Integer records) {
+        return sortService.fuzzySearch(phrase, page, records);
     }
 
 
-    @GetMapping("/getAllEmployeesWithDepartments/sortBy/{sort}/{order}/{phrase}/{page}")
+    @GetMapping("/getAllEmployeesWithDepartments/sortBy/{sort}/{order}/{phrase}/{page}/{records}")
     public List<EmpDept> gelAllEmployeesWithSort(@PathVariable("sort") String sortBy,
                                                  @PathVariable("order") String sortOrder,
                                                  @PathVariable String phrase,
-                                                 @PathVariable Integer page) {
+                                                 @PathVariable Integer page,
+                                                 @PathVariable Integer records) {
 
-        var sortedEmployeeDeptList = sortService.fuzzySearch(phrase, page)
+        var sortedEmployeeDeptList = sortService.fuzzySearch(phrase, page, records)
                 .stream()
                 .sorted(Comparator.comparing(x -> {
                     return sortService.sortedObj(x, sortBy);
