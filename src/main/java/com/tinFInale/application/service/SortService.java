@@ -60,7 +60,7 @@ public class SortService {
         var preparedPhrase = phrase.toLowerCase().trim();
 
         //SEARCH PHRASE COMES FROM ANGULAR FRONT
-        if (preparedPhrase.equals("undefined"))
+        if (preparedPhrase.equals("undefined") || phrase.equals(""))
             return new ArrayList<>(empDeptRepository.findAll(PageRequest.of(page,5)));
         else
             return empDeptRepository.findBySearchPhrase(preparedPhrase,PageRequest.of(page,5));

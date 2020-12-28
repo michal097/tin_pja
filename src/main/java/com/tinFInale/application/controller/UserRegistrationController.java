@@ -76,7 +76,8 @@ public class UserRegistrationController {
 
     @GetMapping("/countPages/{phrase}")
     public String counterPage(@PathVariable String phrase){
-        if(phrase.equals("undefined")){
+        var preparePhrase = phrase.toLowerCase().trim();
+        if(preparePhrase.equals("undefined") || preparePhrase.equals("_")){
             return String.valueOf(empDeptRepository.findAll().size());
         }
         return String.valueOf(empDeptRepository.findBySearchPhrase(phrase, PageRequest.of(0,Integer.MAX_VALUE)).size());

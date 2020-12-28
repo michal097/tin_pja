@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin
 @RequestMapping("/test")
-public class Testing {
+public class InitAdminUser {
+
+
+    private final UserRepository userRepository;
+    private final UserCreateService userCreateService;
 
     @Autowired
-    UserRepository userRepository;
-    @Autowired
-    UserCreateService userCreateService;
+    public InitAdminUser(UserRepository userRepository, UserCreateService userCreateService){
+        this.userRepository=userRepository;
+        this.userCreateService=userCreateService;
+    }
 
     @GetMapping("init")
     public String init() {
